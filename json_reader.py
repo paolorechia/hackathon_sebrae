@@ -2,7 +2,6 @@ import os
 import sys
 import json
 from json_config import JSON_DIRECTORY
-from json_config import SHOES_DIRECTORY
 
 def read_json(DB_DIRECTORY, CNPJ): 
     json_filepath = os.path.join(JSON_DIRECTORY, DB_DIRECTORY, CNPJ + '.json')
@@ -12,4 +11,4 @@ def read_json(DB_DIRECTORY, CNPJ):
         print(data)
 
 if __name__ == '__main__':
-    read_json(SHOES_DIRECTORY, '21882532000170')
+    read_json('shoes', '21882532000170')

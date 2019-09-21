@@ -3,7 +3,7 @@ const puppeteer = require('puppeteer');
 const fs = require('fs');
 
 const KNOB_AWAIT_TIME = 100;
-const SEARCH_AWAIT_TIME = 2000;
+const SEARCH_AWAIT_TIME = 5000;
 
 
 (async () => {
