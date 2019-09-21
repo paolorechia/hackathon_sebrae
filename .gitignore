@@ -1,0 +1,4 @@
+*.swp
+databases*
+*/node_modules/*
+*.png
