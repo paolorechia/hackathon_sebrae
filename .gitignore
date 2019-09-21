@@ -3,3 +3,4 @@ databases*
 */node_modules/*
 *.png
 *.pyc
+*.json
