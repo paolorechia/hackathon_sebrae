@@ -97,12 +97,16 @@ if __name__ == "__main__":
     img = remove_composite_color(img, color0=0, color1=1)
 #    img[:,:,1]=0
 #    img[:,:,2]=0
-#    plt.imshow(img, cmap='gray')
-#    plt.show()
+    plt.imshow(img)
+    plt.show()
+
 
     gray = cv.cvtColor(img, cv.COLOR_RGB2GRAY)
+    blur = cv.GaussianBlur(img,(3,3),0)
+    plt.imshow(blur, cmap='gray')
+    plt.show()
 #    ret2,th2 = cv.threshold(gray,0,255,cv.THRESH_BINARY_INV +cv.THRESH_OTSU)
-    ret2,th2 = cv.threshold(gray,10,255,cv.THRESH_BINARY_INV)
+    ret2,th2 = cv.threshold(blur,80,255,cv.THRESH_BINARY_INV)
     plt.imshow(th2, cmap='gray')
     plt.show()
 
