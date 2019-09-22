@@ -33,7 +33,7 @@ Vamos descrevê-los um a um brevemente.
 
 O web scraper executado em nodejs também pode ser chamado a partir de um script `wrapper` em Python.
 
-
+#### Diretório Raiz
 ##### enrich_with_icms.py
 `Usage: enrich_with_icms.py dataset_filepath active_txt cancelled_txt output_directory`
 Parâmetros:
@@ -43,6 +43,10 @@ active_txt: Caminho para arquivo .txt de registros ativos no ICMS
 cancelled_txt: Caminho para arquivo .txt de registros cancelados no ICMS
 output_directory: Diretório de saída
 
+Enrique o dataset original do sebrae com duas colunas extras, Situação no ICMS e Data de Cancelamento (se foi cancelado). Depende dos arquivos disponiblizados em:
+
+https://www.fazenda.pr.gov.br/modules/conteudo/conteudo.php?conteudo=109
+
 #### scrapper_wrapper.py
 
 `Usage: scraper_wrapper.py dataset output_directory [batch_mode]`
@@ -50,7 +54,29 @@ Recebe um dataset de entrada em arquivo .csv, no formato fornecido pelo SEBRAE n
 e aciona o web scraper Puppeteer para buscar os primeiros links fornecidos pelo Duckduckgo, salvando cada resultado em
 `.json` no diretório fornecido. A função batch_mode ainda não foi habilitada (trabalhos futuros)
 
+##### cei_requester.py
+`Usage: cei_requester.py input_dataset output_directory`
+Consome API da Receita para consultar informação de CEIS para os CNPJs da base de entrada. 
+
+##### cnep_requester.py
+Consome API da Receita para consultar informação de CNEP para os CNPJs da base de entrada. 
+`Usage: cnep_requester.py input_dataset output_directory`
+
+
+
 #### json_reader.py
 Ainda não utilizado (trabalhos futuros)
+
+
+#### Diretório `captch_solving`
+
+
+#### Diretório `scraper`
+Não é necessário acessá-lo diretamente, aqui há diferentes versões do web scraper que utiliza a ferramenta Puppeteer do Google.
+
+#### Diretório `databases`
+Bases originais fornecidas pelo SEBRAE
+
+#### Diretório `enriched_databases`
 
 
