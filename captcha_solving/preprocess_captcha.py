@@ -2,6 +2,7 @@ import sys
 import cv2 as cv
 import skimage
 import numpy
+import numpy as np
 from scipy import stats
 from matplotlib import pyplot as plt
 
@@ -47,8 +48,15 @@ if __name__ == "__main__":
     
     img = cv.imread(input_img)
 
+    plt.imshow(img)
+    plt.show()
 #    cv.imshow('image',img)
 #    cv.waitKey(0)
+
+    kernel = np.ones((3,3),np.uint8)
+    img = cv.erode(img,kernel,iterations = 1)
+    plt.imshow(img)
+    plt.show()
 
 #    imshow(img)
     def remove_peaks(img, threshold=50, filter_=None, nth_max=1, peak=True,\
@@ -93,8 +101,14 @@ if __name__ == "__main__":
 
 
     img = remove_peaks(img, threshold=1, nth_max=1, peak=True, colors=[2])
+    plt.imshow(img)
+    plt.show()
     img = remove_peaks(img, threshold=50, nth_max=5, peak=False, colors=[0])
+    plt.imshow(img)
+    plt.show()
     img = remove_composite_color(img, color0=0, color1=1)
+    plt.imshow(img)
+    plt.show()
 #    img[:,:,1]=0
 #    img[:,:,2]=0
 #    plt.imshow(img, cmap='gray')
@@ -102,10 +116,11 @@ if __name__ == "__main__":
 
     gray = cv.cvtColor(img, cv.COLOR_RGB2GRAY)
 #    ret2,th2 = cv.threshold(gray,0,255,cv.THRESH_BINARY_INV +cv.THRESH_OTSU)
-    ret2,th2 = cv.threshold(gray,10,255,cv.THRESH_BINARY_INV)
+    ret2,th2 = cv.threshold(gray,20,255,cv.THRESH_BINARY_INV)
     plt.imshow(th2, cmap='gray')
     plt.show()
 
+    cv.imwrite('firstsuccess.png', th2)
 #    for row in blue_channel:
 #        print(px)
 
