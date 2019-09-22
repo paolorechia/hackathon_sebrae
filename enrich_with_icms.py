@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import os
 import sys
 import json
@@ -21,7 +22,7 @@ if __name__ == "__main__":
     with open(active_txt, 'r') as active_file:
         for row in active_file:
             columns = row.split(';')
-            cnpj = columns[1]
+            cnpj = columns[1].lstrip('0')
             active[cnpj]=True 
             habilited[cnpj]= columns[2]
 
@@ -31,10 +32,13 @@ if __name__ == "__main__":
     with open(cancelled_txt, 'r') as cancelled_file:
         for row in cancelled_file:
             columns = row.split(';')
-            cnpj = columns[1]
-            cancellation_date[cnpj]=True 
+            cnpj = columns[1].lstrip('0')
+            cancelled[cnpj]=True 
             cancellation_date[cnpj]= columns[2]
 
+    if '9006315000110' not in cancellation_date:
+        print('uh oh')
+        sys.exit(1)
     print(len(cancellation_date.keys()))
 
     enriched_name = 'icms_enriched_' + \
@@ -63,16 +67,15 @@ if __name__ == "__main__":
                     is_cancelled = False
                 icms_status = '' 
                 cancel_date = ''
+                icms_status = 'Registro Não Encontrado'
                 if is_cancelled and is_active:
                     icms_status = 'Inconsistente'
                     cancel_date = cancellation_date[cnpj]
-                if is_cancelled:
+                elif is_cancelled:
                     icms_status = 'Cancelado'
                     cancel_date = cancellation_date[cnpj]
                 elif is_active:
                     icms_status = 'Ativo'
-                else:
-                    icms_status = 'Registro Não Encontrado'
                 output_row = row
                 output_row['Situação no ICMS']=icms_status
                 output_row['Data de Cancelamento no ICMS']=cancel_date
