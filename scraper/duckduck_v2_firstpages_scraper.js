@@ -3,7 +3,7 @@ const puppeteer = require('puppeteer');
 const fs = require('fs');
 
 const KNOB_AWAIT_TIME = 100;
-const SEARCH_AWAIT_TIME = 5000;
+const SEARCH_AWAIT_TIME = 2000;
 
 
 (async () => {
@@ -19,7 +19,7 @@ const SEARCH_AWAIT_TIME = 5000;
   width = 800;
   height = 1024;
   const browser = await puppeteer.launch({ 
-      headless: true, 
+      headless: false, 
       defaultViewport: { width, height },
   });
   const page = await browser.newPage();
@@ -36,13 +36,17 @@ const SEARCH_AWAIT_TIME = 5000;
                      .filter( a => a.indexOf('youtube') === -1)
                      .filter( a => a.indexOf('spreadprivacy') === -1)
                      .filter( a => a.indexOf('donttrack') === -1)
-                     .filter( a => a.indexOf('wikipedia') === -1);
-
-  const jsonContent = JSON.stringify(clean_hrefs);
-
-  console.log('Saving at ' + output_filepath)
-  fs.writeFile(output_filepath, jsonContent, function (err) {
-    console.log(err);
-  });
+                     .filter( a => a.indexOf('wikipedia') === -1)
+                     .filter( a => a.length > 6);
+  if (clean_hrefs.length !== 0) {
+    console.log(clean_hrefs);
+    const jsonContent = JSON.stringify(clean_hrefs);
+    console.log('Saving at ' + output_filepath)
+    fs.writeFile(output_filepath, jsonContent, function (err) {
+      console.log(err);
+    });
+  } else {
+    console.log('Something went wrong, empty links returned')
+  }
   await browser.close();
 })();

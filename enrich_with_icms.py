@@ -36,11 +36,6 @@ if __name__ == "__main__":
             cancelled[cnpj]=True 
             cancellation_date[cnpj]= columns[2]
 
-    if '9006315000110' not in cancellation_date:
-        print('uh oh')
-        sys.exit(1)
-    print(len(cancellation_date.keys()))
-
     enriched_name = 'icms_enriched_' + \
         dataset_filepath.split('/')[len(dataset_filepath.split('/')) - 1]
 

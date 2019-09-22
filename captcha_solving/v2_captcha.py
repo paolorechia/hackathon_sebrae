@@ -1,6 +1,7 @@
 import sys
 import os
 import cv2 as cv
+import cv2
 import skimage
 import numpy
 import numpy as np
@@ -53,11 +54,41 @@ if __name__ == "__main__":
     plt.show()
 
 #    blur = cv.blur(th,(2,2))
-    blur = cv.medianBlur(th, 3)
+    blur = cv.medianBlur(th, 2)
     plt.imshow(blur, cmap='gray')
     plt.show()
 
     cv.imwrite('blackwhite_test.jpg', blur)
+
+    import skimage.measure
+    import skimage.color
+
+    # encontra os componentes conectados
+    (labels, total) = skimage.measure.label(blur, background=0, return_num=True, connectivity=2)
+
+    # pega os componentes com mais de 20 pixels
+    images = [numpy.uint8(labels==i) * 255 for i in range(total) if numpy.uint8(labels==i).sum() > 20]
+
+    # gera uma imagem com cada componente pintado de um cor diferente
+    img = skimage.color.label2rgb(labels, bg_color=[1, 1, 1])
+
+    # pinta retangulos em volta de cada componente
+    color = (1.0, 0.0, 0.0)
+
+    for label in images:
+        # encontra os contornos para cada componente
+        (countours, _) = cv2.findContours(label, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+
+        # calcula o retangulo em volta dos contornos
+        (x,y,w,h)      = cv2.boundingRect(countours[0])
+
+        # e pinta ele
+        cv2.rectangle(img, (x, y), (x+w, y+h), color, 1)
+
+    cv2.imshow('image', img)
+    cv2.waitKey(0)
+    img2 = img * 255
+    img2 = img2.astype(numpy.uint8)
 
     """
 
